@@ -1,0 +1,108 @@
+.table table {
+    margin-top: 5%;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 65%;
+    border-style: none;
+    overflow-y: hidden;
+    font-size: 14px;
+  }
+  
+.table td,th{
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 20px;
+    min-width: 180px;
+    border-style: none;
+  }
+.table tbody { display: block;}
+.table th,tr {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;   
+    border-style: solid;
+    
+  }
+  .table th{
+    text-align: center;
+  }
+  .table tbody {
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.blocked{
+    color: red;
+}
+.unblocked{
+    color:green;
+}
+
+button{
+    width: 100px;
+    
+}
+
+
+body{
+   height: 100%;
+   font-family: sans-serif;
+   overflow-x: hidden;
+}
+html {
+    height: 100%;
+}
+.navbar{   
+background-color: rgb(69, 68, 68);
+color: white;
+display: block;
+border-right: 3px solid black;
+height: 100%;
+width: 20%;
+position: fixed;
+z-index: 1;
+}
+
+
+.leftnavbartop{
+    padding: 30px 20px ;
+    margin-bottom: 50px ;
+    font-size: 14px;
+    text-align: center;
+    
+    
+}
+
+.leftnavbarbottom{
+    padding: 50px;
+    text-align: left;
+}
+
+
+.button{
+    display: block;
+    margin-left: 25%;
+    width: 50%;
+    padding: 10px ;
+    margin-top: 40px;
+    margin-bottom: -10px ;
+    border-radius: 6px;
+    background-color: gray;
+    
+}
+.button:hover{
+    background-color: rgb(58, 58, 58); 
+    color: white;
+ }
+.table{
+    margin-top: -40%;
+    margin-left: 25%;  
+}
+.heading h1{
+
+    display: block;
+    position: fixed;
+    margin-left: 50%;  
+    border-bottom: 2px solid black;
+}
+

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/Admindashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+<body>
+<div class="heading"><h1>Admin Dashboard</h1></div>
+
+<div class="navbar">
+
+    <div class="leftnavbartop">
+        <h2>Project Name</h2>
+    </div>
+
+    <div class="leftnavbarbottom">
+        <h3>Admin</h3>   <!--java script  to detect username-->
+    </div>
+
+
+    <input class="button" type="button" value="Log out" onclick="logout()">
+    <!-- onclick="location.href='userlogin.html';"-->
+
+
+</div>
+
+
+<div class="table">
+    <table>
+        <tbody id="table">
+        <tr>
+            <th>File Name</th>
+            <th>Message</th>
+            <th>Accept</th>
+            <th>Decline</th>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<script>
+    const login = new XMLHttpRequest();
+    login.open("GET", "http://localhost:3000/request");
+    login.setRequestHeader("Content-type", "application/json");
+    login.send();
+    login.onload = function () {
+        const obj = JSON.parse(this.responseText);
+        for (let i = 0; i < obj.length; i++) {
+            const file = obj[i];
+            console.log(file)
+            const code = "<tr>" +
+                "<td>" + file.fileName + "</td>" +
+                "<td>" + file.reason + "</td>" +
+                "<td><button onclick='acceptReq(\"" + file.requestId + "\")'>OK</button></td>" +
+                "<td><button onclick='declineReq(\"" + file.requestId + "\")'>OK</button></td>" +
+                "</tr>";
+            document.getElementById('table').innerHTML += code;
+        }
+        console.log(obj)
+    }
+
+    function acceptReq(id) {
+        const accp = new XMLHttpRequest();
+        accp.open("POST", "http://localhost:3000/resolve/" + id);
+        accp.setRequestHeader("Content-type", "application/json");
+        accp.send();
+        accp.onload = function () {
+            console.log(this.responseText)
+            if (accp.status === 200) {
+                window.location.href = "http://localhost:3000/admin.html"
+            } else {
+                alert("There was a problem in processing your request")
+            }
+        }
+    }
+
+    function declineReq(id) {
+        const dec = new XMLHttpRequest();
+        dec.open("POST", "http://localhost:3000/decline/" + id);
+        dec.setRequestHeader("Content-type", "application/json");
+        dec.send();
+        dec.onload = function () {
+            console.log(this.responseText)
+
+            if (dec.status === 100) {
+                alert("File has been blocked")
+                window.location.href = "http://localhost:3000/admin.html"
+            } else if (dec.status === 100) {
+                alert("File has been unblocked")
+                window.location.href = "http://localhost:3000/admin.html"
+            }
+        }
+    }
+
+    function logout(){
+        window.location.href = "http://localhost:3000/login.html"
+
+    }
+</script>
+
+
+</body>
+</html>

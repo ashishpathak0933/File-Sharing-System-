@@ -1,0 +1,70 @@
+html,
+body {
+    
+  background-color: rgb(69, 69, 69);
+    font-family: sans-serif;
+}
+
+
+
+
+.error {
+    display: none;
+    font-size: 50px;
+    margin-left: 40%;
+
+
+    color: red;
+
+}
+
+textarea {
+
+    margin-left: 40%;
+    width: 300px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: lightgray;
+
+}
+
+textarea:hover {
+    background-color: darkgray;
+
+}
+
+.button {
+    text-align: center;
+    font-size: large;
+
+}
+
+.label {
+    color: wheat;
+    margin-top: 60px;
+    margin-left: 2%;
+    text-align: center;
+    font-size: 20px;
+}
+
+.request {
+    height: 40px;
+    width: 200px;
+    margin-left: 44.5%;
+    margin-top: 30px;
+    border-radius: 6px;
+    background-color: lightgray;
+    font-size: 17px;
+
+}
+
+.request:hover {
+    background-color: darkgray;
+}
+
+.back {
+    margin: 5px;
+    border-radius: 5px;
+    width: 100px;
+    height: 30px;
+}

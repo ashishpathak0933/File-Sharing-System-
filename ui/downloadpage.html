@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/downloadpage.css">
+    <title>Document</title>
+</head>
+<body>
+    <input class="back" type="button" value="Back" onclick="location.href='/userdashboard.html';">
+
+    <div class="error"> <label for="reason"> Error message</label></div> <br>
+    <div class="textarea"> <textarea name="" id="reason" cols="30" rows="10"></textarea></div>
+    <a href="#" class="download-link" download>Download</a>
+    <button class="glow-on-hover" type="button" onclick="download()">Download </button>
+
+    <div class="label" id ="label">
+     <label for="reason">Request and appeal against this </label>
+    </div>
+
+    <div>
+        <input class="request" type="button" value="Request to unblock" onclick="sendRequestToAdmin()">
+    </div>
+
+
+<script>
+
+    const str = window.location.href;
+    const n = str.lastIndexOf('/');
+    const result = str.substring(n + 1);
+
+    function download(){
+        const check = new XMLHttpRequest();
+        check.open("POST", "http://localhost:3000/check/"+result);
+        check.setRequestHeader("Content-type", "application/json");
+        check.send();
+        check.onload = function() {
+           if (this.response.status ===200){
+               let url = `http://localhost:3000/download/${result}`;
+               const downloadLink = document.querySelector('.download-link')
+               downloadLink.href = url
+               downloadLink.click()
+           }else{
+               alert("file is blocked")
+           }
+        }
+
+    }
+
+    function sendRequestToAdmin() {
+        let text = document.getElementById('reason')
+        console.log(text)
+
+        const question = {
+            name: result,
+            why: text.value,
+        };
+
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "http://localhost:3000/request");
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send(JSON.stringify(question));
+        xhttp.onload = function() {
+            console.log(this.responseText);
+            text.value=''
+        }
+        /*fetch('http://localhost:3000/request', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, *!/!*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(question)
+        }).then(res => res.json())
+            .then(res => {
+                console.log(res);
+                text.value=''
+            });*/
+    }
+
+
+
+</script>
+</body>
+</html>

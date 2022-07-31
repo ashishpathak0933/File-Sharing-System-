@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Slide Navbar</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/userlogin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="main">
+    <input type="checkbox" id="chk" aria-hidden="true">
+
+    <div class="signup">
+
+        <label for="chk" aria-hidden="true">Sign up</label>
+        <input type="text" name="txt" id="signuptext" placeholder="User name" required="">
+        <input type="password" name="pswd" id="signuppass" placeholder="Password" required="">
+        <button onclick="sendUserInfo()">Sign up</button>
+    </div>
+
+    <div class="login">
+        <label for="chk" aria-hidden="true">Login</label>
+        <input type="email" name="email" id="logintext" placeholder="Email" required="">
+        <input type="password" name="pswd" id="loginpass" placeholder="Password" required="">
+        <button onclick="login()">Login</button>
+
+
+    </div>
+</div>
+
+<script>
+
+    function sendUserInfo() {
+        let username = document.getElementById('signuptext')
+        let password = document.getElementById('signuppass')
+
+        console.log(username, password)
+
+        const question = {
+            id: username.value,
+            password: password.value,
+        };
+
+             const xhttp = new XMLHttpRequest();
+              xhttp.open("POST", "http://localhost:3000/register");
+              xhttp.setRequestHeader("Content-type", "application/json");
+              xhttp.send(JSON.stringify(question));
+              xhttp.onload = function() {
+                  console.log('DONE: ', xhttp.status);
+                  if (xhttp.status === 201) {
+                      username.value = ''
+                      password.value = ''
+                      window.location.href = "http://localhost:3000/userdashboard.html"
+                  }else{
+                      alert("There was a problem in processing your request")
+                  }
+              }
+
+
+    }
+
+    function login() {
+        let username = document.getElementById('logintext')
+        let password = document.getElementById('loginpass')
+        const question = {
+            id: username.value,
+            password: password.value,
+        };
+        const login = new XMLHttpRequest();
+        login.open("POST", "http://localhost:3000/login");
+        login.setRequestHeader("Content-type", "application/json");
+        login.send(JSON.stringify(question));
+        login.onload = function() {
+            console.log('DONE: ', login.status);
+            if (login.status === 200) {
+                username.value = ''
+                password.value = ''
+                window.location.href = "http://localhost:3000/userdashboard.html"
+            }else{
+                alert("There was a problem in processing your request")
+            }
+        }
+    }
+
+
+</script>
+</body>
+
+</html>

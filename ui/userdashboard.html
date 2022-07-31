@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/userdashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>Document</title>
+    <!-- <script >
+        fetch('data.txt')
+  .then(response => response.text())
+  .then(data => {
+    var s = data.split('\n')
+    for(let i=0; i<s.length; i++){
+        var words = s[i].split(' ')
+        var code= "<td>"+words[0]+"</td>"+
+        "<td>"+words[1]+"</td>"+
+        "<td>"+words[2]+"</td>"+
+        "<td><button>Download</button></td>"+
+        "<td class="+words[3]+">"+words[3]+"</td>"+
+        "<td><button>Block</button></td>"
+    }
+  	
+  });
+
+    </script> -->
+
+</head>
+
+<body>
+    <div class="heading">
+        <h1>User Dashboard</h1>
+    </div>
+
+    <div class="navbar">
+
+        <div class="leftnavbartop">
+            <h2>File Upload</h2>
+        </div>
+
+        <div class="leftnavbarbottom">
+            <h3 id="usernamePlace">User: username</h3>
+        </div>
+        <input class="button" type="button" value="Log out" onclick="location.href='/login.html';">
+
+    </div>
+
+
+    <div class="table">
+        <button class="refreshbutton" onClick="window.location.reload();">Refresh <i class="fa fa-refresh"></i></button>
+        <div class="container">
+            <a href="upload.html" class="btn">Upload</a>
+        </div>
+
+        <table>
+            <tbody id="table">
+                <tr>
+                    <th>File Name</th>
+                    <th>Date</th>
+                    <th>Size</th>
+                    <th>Download</th>
+                    <th>Delete</th>
+                </tr>
+
+                <script>
+                    const login = new XMLHttpRequest();
+                    login.open("GET", "http://localhost:3000/files");
+                    login.setRequestHeader("Content-type", "application/json");
+                    login.send();
+                    login.onload = function() {
+                        const obj = JSON.parse(this.responseText);
+                        for (let i=0; i<obj.length; i++) {
+                            const file = obj[i];
+                            console.log(file)
+                            const code = "<tr><td>" + file.fileName + "</td>" +
+                                "<td>" + getDate(file.date) + "</td>" +
+                                "<td>" + file.filesize + "</td>" +
+                                "<td><button onclick='download(\""+file.fileName+"\")'>Download</button></td>" +
+                                "<td><button onclick='deleteFile(\""+file.fileName+"\")'>Delete</button></td></tr>";
+                            document.getElementById('table').innerHTML += code;
+                        }
+                        console.log(obj)
+                    }
+
+                    function getDate(time){
+                        let date = new Date(parseInt(time));
+
+                      return date.getDate()+
+                            "/"+(date.getMonth()+1)+
+                            "/"+date.getFullYear()+
+                            " "+date.getHours()+
+                            ":"+date.getMinutes()+
+                            ":"+date.getSeconds();
+                    }
+
+                    function download(name){
+                        window.location.href = "http://localhost:3000/download.html/"+name
+                    }
+
+
+                    function deleteFile(name){
+                        const login = new XMLHttpRequest();
+                        login.open("POST", "http://localhost:3000/delete/"+name);
+                        login.setRequestHeader("Content-type", "application/json");
+                        login.send();
+                        login.onload = function() {
+                            console.log('DONE: ', login.status);
+                            if (login.status === 200) {
+                                window.location.href = "http://localhost:3000/userdashboard.html"
+                            }else{
+                                alert("There was a problem in processing your request")
+                            }
+                        }
+                    }
+
+                </script>
+                <!-- <tr>
+                    <td>Sample</td>
+                    <td>Sample</td>
+                    <td>Sample</td>
+                    <td><button>Download</button></td>
+                    <td class="unblocked">Unblocked</td>
+                    <td><button>Block</button></td>
+                </tr>
+                <tr>
+                    <td>Sample2</td>
+                    <td>Sample2</td>
+                    <td>Sample2</td>
+                    <td><button>Download</button></td>
+                    <td class="blocked">Blocked</td>
+                    <td><button>Unblock</button></td>
+                </tr>
+                <tr>
+                    <td>Sample2</td>
+                    <td>Sample2</td>
+                    <td>Sample2</td>
+                    <td><button>Download</button></td>
+                    <td class="blocked">Blocked</td>
+                    <td><button>Unblock</button></td>
+                </tr>
+                <tr>
+                    <td>Sample2</td>
+                    <td>Sample2</td>
+                    <td>Sample2</td>
+                    <td><button>Download</button></td>
+                    <td class="blocked">Blocked</td>
+                    <td><button>Unblock</button></td>
+                </tr>
+                <tr>
+                    <td>Sample</td>
+                    <td>Sample</td>
+                    <td>Sample</td>
+                    <td><button>Download</button></td>
+                    <td class="unblocked">Unblocked</td>
+                    <td><button>Block</button></td>
+                </tr>
+                <tr>
+                    <td>Sample2</td>
+                    <td>Sample2</td>
+                    <td>Sample2</td>
+                    <td><button>Download</button></td>
+                    <td class="blocked">Blocked</td>
+                    <td><button>Unblock</button></td>
+                </tr>
+                <tr>
+                    <td>Sample</td>
+                    <td>Sample</td>
+                    <td>Sample</td>
+                    <td><button>Download</button></td>
+                    <td class="unblocked">Unblocked</td>
+                    <td><button>Block</button></td>
+                </tr>
+                <tr>
+                    <td>Sample2</td>
+                    <td>Sample2</td>
+                    <td>Sample2</td>
+                    <td><button>Download</button></td>
+                    <td class="blocked">Blocked</td>
+                    <td><button>Unblock</button></td>
+                </tr> -->
+
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+
+</html>
